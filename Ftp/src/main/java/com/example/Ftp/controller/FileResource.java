@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.*;
@@ -26,12 +27,13 @@ import java.util.Vector;
 @RestController
 @RequestMapping("/file")
 public class FileResource {
-
+    private ServletContext servletContext;
     private Environment env;
     @Autowired
-    public  FileResource(Environment env)
+    public  FileResource(Environment env,ServletContext servletContext)
     {
         this.env=env;
+        this.servletContext=servletContext;
     }
     //define a location
     public static final String DIRECTORY = System.getProperty("user.home") + "/Downloads/uploads/";
@@ -146,7 +148,8 @@ public class FileResource {
 
 
 //        return new ResponseEntity(inputStreamResource,httpHeaders, HttpStatus.OK);
-        return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.MULTIPART_FORM_DATA).body(inputStreamResource);
+//        return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.MULTIPART_FORM_DATA).body(inputStreamResource);
+        return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.IMAGE_PNG).body(inputStreamResource);
     }
 
 }
